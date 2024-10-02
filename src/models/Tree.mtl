@@ -1,0 +1,12 @@
+# Blender 3.3.1 MTL File: 'ppgso_assets.blend'
+# www.blender.org
+
+newmtl Purple_dark
+Ns 91.368805
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd /Users/brano/Desktop/FIIT/2022-2023/ZS2022-2023/PPGSO/Assets/textures/Wood.bmp
