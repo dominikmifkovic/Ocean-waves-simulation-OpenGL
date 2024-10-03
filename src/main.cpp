@@ -75,6 +75,7 @@ const char* fragmentShaderSource = R"(
         vec3 specular = light.specular * spec;
         vec3 result = ambient + diffuse + specular;
         FragColor = vec4(result, 1.0);
+        FragColor.a = 0.5;
     }
 )";
 
@@ -88,7 +89,7 @@ int main(){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
     glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
-    GLFWwindow* window = glfwCreateWindow(800,600,"OpenGL Ocean",NULL,NULL);
+    GLFWwindow* window = glfwCreateWindow(1200,900,"OpenGL Ocean",NULL,NULL);
     if(window == NULL){
         glfwTerminate();
         return -1;
@@ -186,13 +187,15 @@ int main(){
         glClearColor(0.1f,0.1f,0.1f,1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glUseProgram(shaderProgram);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glUniform3fv(glGetUniformLocation(shaderProgram,"light.direction"),1,glm::value_ptr(lightDir));
         glUniform3fv(glGetUniformLocation(shaderProgram,"light.ambient"),1,glm::value_ptr(lightAmbient));
         glUniform3fv(glGetUniformLocation(shaderProgram,"light.diffuse"),1,glm::value_ptr(lightDiffuse));
         glUniform3fv(glGetUniformLocation(shaderProgram,"light.specular"),1,glm::value_ptr(lightSpecular));
-        glm::mat4 view = glm::lookAt(glm::vec3(0.0f,10.0f,10.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,1.0f,0.0f));
+        glm::mat4 view = glm::lookAt(glm::vec3(0.0f,20.0f,20.0f),glm::vec3(0.0f,0.0f,0.0f),glm::vec3(0.0f,1.0f,0.0f));
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"view"),1,GL_FALSE,glm::value_ptr(view));
-        glm::mat4 projection = glm::perspective(glm::radians(45.0f),800.0f/600.0f,0.1f,100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f),1200.0f/900.0f,0.1f,100.0f);
         glUniformMatrix4fv(glGetUniformLocation(shaderProgram,"projection"),1,GL_FALSE,glm::value_ptr(projection));
         glUniform3f(glGetUniformLocation(shaderProgram,"objectColor"),0.0f,0.5f,1.0f);
         glUniform3f(glGetUniformLocation(shaderProgram,"viewPos"),0.0f,10.0f,10.0f);
